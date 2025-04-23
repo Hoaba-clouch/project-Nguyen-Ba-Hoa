@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập / Đăng ký</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .wrapper {
+            display: flex;
+            background-color: #f9fafa;
+            width: 900px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+        }
+
+        .left-panel {
+            width: 35%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: #fff;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .right-panel {
+            width: 65%;
+            padding: 50px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            color: #1d2b53;
+        }
+
+        h3 {
+            margin: 20px 0 10px;
+            text-align: center;
+            font-weight: normal;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .form-link {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .form-link a {
+            color: #007bff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Thông báo -->
+        <div class="left-panel" id="messagePanel"></div>
+
+        <!-- Phần form -->
+        <div class="right-panel">
+
+            <!-- Đăng nhập -->
+            <div id="loginBox">
+                <h1>Trello</h1>
+                <h3>Please sign in</h3>
+                <div class="form-group">
+                    <input type="email" id="loginEmail" placeholder="Email address" />
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" />
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="remember" />
+                    <label for="remember">Remember me</label>
+                </div>
+                <div class="form-link">
+                    Don’t have an account, <a onclick="toggleForms()">click here !</a>
+                </div>
+                <button onclick="login()">Sign in</button>
+                <footer>© 2025 – Rikkei Education</footer>
+            </div>
+
+            <!-- Đăng ký -->
+            <div id="registerBox" class="hidden">
+                <h1>Trello</h1>
+                <h3>Please sign up</h3>
+                <div class="form-group">
+                    <input type="email" id="regEmail" placeholder="Email address" />
+                </div>
+                <div class="form-group">
+                    <input type="text" id="regUsername" placeholder="Username" />
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" placeholder="Password" />
+                </div>
+                <div class="form-link">
+                    Already have an account, <a onclick="toggleForms()">click here !</a>
+                </div>
+                <button onclick="register()">Sign up</button>
+                <footer>© 2025 – Rikkei Education</footer>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showMessage(type, message) {
+            const panel = document.getElementById("messagePanel");
+            panel.innerHTML = `
+      <div class="alert ${type}">
+        <strong>${type === 'success' ? '✓ Thành công' : '✖ Lỗi'}</strong><br>
+        ${message}
+      </div>
+    `;
+        }
+
+        function toggleForms() {
+            document.getElementById("loginBox").classList.toggle("hidden");
+            document.getElementById("registerBox").classList.toggle("hidden");
+            document.getElementById("messagePanel").innerHTML = "";
+        }
+
+        function login() {
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPassword").value.trim();
+
+            if (!email || !password) {
+                let msg = "";
+                if (!password) msg += "Mật khẩu không được bỏ trống<br>";
+                if (!email) msg += "Email không được bỏ trống";
+                showMessage("error", msg);
+                return;
+            }
+
+            const user = JSON.parse(localStorage.getItem(email));
+            if (user && user.password === password) {
+                showMessage("success", "Đăng nhập thành công");
+                setTimeout(() => window.location.href = "index.html", 1000);
+            } else {
+                showMessage("error", "Email hoặc mật khẩu không đúng");
+            }
+        }
+
+        function register() {
+            const email = document.getElementById("regEmail").value.trim();
+            const username = document.getElementById("regUsername").value.trim();
+            const password = document.getElementById("regPassword").value.trim();
+
+            if (!email || !username || !password) {
+                showMessage("error", "Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+
+            if (localStorage.getItem(email)) {
+                showMessage("error", "Email đã được đăng ký!");
+                return;
+            }
+
+            const user = {
+                email,
+                username,
+                password
+            };
+            localStorage.setItem(email, JSON.stringify(user));
+            showMessage("success", "Đăng ký thành công! Mời bạn đăng nhập.");
+            toggleForms();
+        }
+    </script>
+
+</body>
+
+</html>

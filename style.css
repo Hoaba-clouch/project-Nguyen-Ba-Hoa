@@ -1,0 +1,94 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+
+  .auth-container {
+      background: white;
+      padding: 2rem;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+  }
+
+  form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+  }
+
+  button {
+      background-color: #1a73e8;
+      color: white;
+      padding: 0.5rem;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+  }
+
+  button:hover {
+      background-color: #155ab6;
+  }
+
+  .switch-link {
+      font-size: 0.9rem;
+  }
+
+  footer {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #666;
+  }
+
+  @media (max-width: 480px) {
+      .auth-container {
+          padding: 1.5rem;
+      }
+  }
+}
+
+
+#notification-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.notification {
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: #333;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  font-weight: bold;
+  min-width: 250px;
+  transition: all 0.3s ease-in-out;
+}
+
+.notification.success {
+  background-color: #d4edda;
+  border-left: 6px solid #28a745;
+  color: #155724;
+}
+
+.notification.error {
+  background-color: #f8d7da;
+  border-left: 6px solid #dc3545;
+  color: #721c24;
+}

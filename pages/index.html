@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trello Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="bg-gray-50">
+  <div class="flex min-h-screen">
+    <aside class="w-60 border-r p-4 bg-white">
+      <div class="text-2xl font-bold mb-6">
+        <img src="../assets/trello-logo-full.png.png" alt="">
+      </div>
+      <div class="text-sm font-semibold text-gray-500 mb-2">YOUR WORKSPACES</div>
+      <ul class="space-y-2 mb-6">
+        <li class="text-blue-600 font-medium cursor-pointer"><i class="fa-solid fa-bars"></i> Boards</li>
+        <li class="text-blue-600 cursor-pointer"><i class="fa-regular fa-star"></i> Starred Boards</li>
+        <li class="text-blue-600 cursor-pointer"><i class="fa-regular fa-rectangle-xmark"></i> Closed Boards</li>
+      </ul>
+      <ul class="space-y-2">
+        <li class="text-blue-600 cursor-pointer"><i class="fa-solid fa-gear"></i> Settings</li>
+        <li class="text-blue-600 cursor-pointer"><i class="fa-solid fa-door-closed"></i> Sign out</li>
+      </ul>
+    </aside>
+    <main class="flex-1 p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h1 class="text-2xl font-semibold">Your Workspaces</h1>
+        <div class="space-x-2">
+          <button class="bg-blue-500 text-white px-3 py-1 rounded">Share</button>
+          <button class="bg-blue-500 text-white px-3 py-1 rounded">Export</button>
+          <button class="border px-3 py-1 rounded">This week</button>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="relative overflow-hidden cursor-pointer">
+          <img src="https://picsum.photos/id/1015/400/200" class="w-full h-32 object-cover">
+          <div class="absolute top-2 left-2 text-white font-semibold text-sm">Board Title 01</div>
+          <button class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this
+            board</button>
+        </div>
+        <div class="relative overflow-hidden cursor-pointer">
+          <img src="https://picsum.photos/id/1016/400/200" class="w-full h-32 object-cover">
+          <div class="absolute top-2 left-2 text-white font-semibold text-sm">Board Title 02</div>
+          <button class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this
+            board</button>
+        </div>
+        <div class="relative overflow-hidden cursor-pointer">
+          <img src="https://picsum.photos/id/1018/400/200" class="w-full h-32 object-cover">
+          <div class="absolute top-2 left-2 text-white font-semibold text-sm">Board Title 03</div>
+          <button class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this
+            board</button>
+        </div>
+        <div class="relative overflow-hidden cursor-pointer">
+          <img src="https://picsum.photos/id/1019/400/200" class="w-full h-32 object-cover">
+          <div class="absolute top-2 left-2 text-white font-semibold text-sm">Board Title 04</div>
+          <button class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this
+            board</button>
+        </div>
+        <div class="flex items-center justify-center border h-32 bg-white cursor-pointer">
+          <button class="bg-gray-100 px-3 py-1 rounded">Create new board</button>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 mb-2">
+        <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M5 12l5 5L20 7"></path>
+        </svg>
+        <h2 class="text-xl font-semibold">Starred Boards</h2>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="relative overflow-hidden cursor-pointer">
+          <img src="https://picsum.photos/id/1020/400/200" class="w-full h-32 object-cover">
+          <div class="absolute top-2 left-2 text-white font-semibold text-sm">Important Board 01</div>
+        </div>
+        <div class="relative overflow-hidden cursor-pointer">
+          <img src="https://picsum.photos/id/1021/400/200" class="w-full h-32 object-cover">
+          <div class="absolute top-2 left-2 text-white font-semibold text-sm">Important Board 02</div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>
