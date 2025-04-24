@@ -2,13 +2,170 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trello Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    .custom-checkbox {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+    }
+
+    .custom-checkbox:checked {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    .custom-checkbox:checked::after {
+      content: '\2713';
+      color: white;
+      font-size: 14px;
+      position: absolute;
+      top: 1px;
+      left: 4px;
+    }
+
+    .c {
+      font-size: 30px;
+    }
+
+    /* Ảnh background - hiệu ứng selected */
+    .bg-option {
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      outline: 2px solid transparent;
+    }
+
+    .bg-option.selected {
+      outline: 2px solid #3b82f6;
+      /* viền xanh dương */
+    }
+
+    .bg-option::after {
+      content: "✔";
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      font-size: 14px;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bg-option.selected::after {
+      display: flex;
+    }
+
+    /* Nút màu - hiệu ứng selected */
+    .color-option {
+      border-radius: 50%;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      position: relative;
+      outline: 2px solid transparent;
+    }
+
+    .color-option.selected {
+      outline: 2px solid #3b82f6;
+    }
+
+    .color-option::after {
+      content: "✔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 14px;
+      color: white;
+      display: none;
+    }
+
+    .color-option.selected::after {
+      display: block;
+    }
+
+    /* === BACKGROUND (ảnh) === */
+    .bg-option {
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      outline: 2px solid transparent;
+      transition: outline 0.2s ease;
+    }
+
+    .bg-option.selected {
+      outline: 2px solid #3b82f6;
+      /* Màu xanh viền khi được chọn */
+    }
+
+    .bg-option::after {
+      content: "✔";
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      font-size: 14px;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bg-option.selected::after {
+      display: flex;
+    }
+
+    /* === COLOR (button tròn) === */
+    .color-option {
+      border-radius: 9999px;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      position: relative;
+      outline: 2px solid transparent;
+      transition: outline 0.2s ease;
+    }
+
+    .color-option.selected {
+      outline: 2px solid #3b82f6;
+    }
+
+    .color-option::after {
+      content: "✔";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 14px;
+      color: white;
+      display: none;
+    }
+
+    .color-option.selected::after {
+      display: block;
+    }
+  </style>
 </head>
 
 <body class="bg-gray-50">
@@ -32,6 +189,8 @@
       <div class="flex items-center justify-between mb-4">
         <h1 class="text-2xl font-semibold">Your Workspaces</h1>
         <div class="space-x-2">
+          <button onclick="toggleModal('createBoardModal')" class="bg-blue-500 text-white px-3 py-1 rounded">Create new
+            board</button>
           <button class="bg-blue-500 text-white px-3 py-1 rounded">Share</button>
           <button class="bg-blue-500 text-white px-3 py-1 rounded">Export</button>
           <button class="border px-3 py-1 rounded">This week</button>
@@ -41,29 +200,26 @@
         <div class="relative overflow-hidden cursor-pointer">
           <img src="https://picsum.photos/id/1015/400/200" class="w-full h-32 object-cover">
           <div class="absolute top-2 left-2 text-white font-semibold text-sm">Board Title 01</div>
-          <button class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this
-            board</button>
+          <button onclick="toggleModal('editBoardModal')"
+            class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this board</button>
         </div>
         <div class="relative overflow-hidden cursor-pointer">
           <img src="https://picsum.photos/id/1016/400/200" class="w-full h-32 object-cover">
           <div class="absolute top-2 left-2 text-white font-semibold text-sm">Board Title 02</div>
-          <button class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this
-            board</button>
+          <button onclick="toggleModal('editBoardModal')"
+            class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this board</button>
         </div>
         <div class="relative overflow-hidden cursor-pointer">
           <img src="https://picsum.photos/id/1018/400/200" class="w-full h-32 object-cover">
           <div class="absolute top-2 left-2 text-white font-semibold text-sm">Board Title 03</div>
-          <button class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this
-            board</button>
+          <button onclick="toggleModal('editBoardModal')"
+            class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this board</button>
         </div>
         <div class="relative overflow-hidden cursor-pointer">
           <img src="https://picsum.photos/id/1019/400/200" class="w-full h-32 object-cover">
           <div class="absolute top-2 left-2 text-white font-semibold text-sm">Board Title 04</div>
-          <button class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this
-            board</button>
-        </div>
-        <div class="flex items-center justify-center border h-32 bg-white cursor-pointer">
-          <button class="bg-gray-100 px-3 py-1 rounded">Create new board</button>
+          <button onclick="toggleModal('editBoardModal')"
+            class="absolute bottom-2 left-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Edit this board</button>
         </div>
       </div>
       <div class="flex items-center gap-2 mb-2">
@@ -84,6 +240,88 @@
       </div>
     </main>
   </div>
+
+  <!-- Modal Create Board -->
+  <div id="createBoardModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded shadow-md w-[400px]">
+      <h2 class="text-lg font-semibold mb-4">Create board</h2>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Background</label>
+      <div class="flex gap-2 mb-4">
+        <img src="https://picsum.photos/id/1015/100/60" class="rounded cursor-pointer">
+        <img src="https://picsum.photos/id/1016/100/60" class="rounded cursor-pointer">
+        <img src="https://picsum.photos/id/1018/100/60" class="rounded cursor-pointer">
+        <img src="https://picsum.photos/id/1020/100/60" class="rounded cursor-pointer">
+      </div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+      <div class="flex gap-2 mb-4">
+        <button class="c w-6 h-6 bg-orange-500"></button>
+        <button class="c w-6 h-6 bg-purple-500"></button>
+        <button class="c w-6 h-6 bg-green-500"></button>
+        <button class="c w-6 h-6 bg-blue-500"></button>
+        <button class="c w-6 h-6 bg-yellow-400"></button>
+        <button class="c w-6 h-6 bg-pink-500"></button>
+      </div>
+      <input type="text" placeholder="E.g. Shopping list for birthday..." class="w-full p-2 border rounded mb-2">
+      <p class="text-xs text-gray-500 mb-4">🌼 Please provide a valid board title.</p>
+      <div class="flex justify-end gap-2">
+        <button onclick="toggleModal('createBoardModal')" class="border px-4 py-1 rounded">Close</button>
+        <button class="bg-blue-600 text-white px-4 py-1 rounded">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Board -->
+  <div id="editBoardModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded shadow-md w-[400px]">
+      <h2 class="text-lg font-semibold mb-4">Update board</h2>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Background</label>
+      <div class="flex gap-2 mb-4">
+        <img class=" w-6 h-6 bg-orange-500 bg-option rounded cursor-pointer">
+        <img class="w-6 h-6 bg-purple-500 bg-option rounded cursor-pointer">
+        <img class="w-6 h-6 bg-green-500 bg-option rounded cursor-pointer">
+        <img class="bg-option rounded cursor-pointer">
+      </div>
+
+      <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+      <div class="flex gap-2 mb-4">
+        <img src="https://picsum.photos/id/1015/100/60" class="bg-option rounded cursor-pointer">
+        <img src="https://picsum.photos/id/1016/100/60" class="bg-option rounded cursor-pointer">
+        <img src="https://picsum.photos/id/1018/100/60" class="bg-option rounded cursor-pointer">
+        <img src="https://picsum.photos/id/1020/100/60" class="bg-option rounded cursor-pointer">
+      </div>
+
+      <input type="text" value="Board 01..." class="w-full p-2 border rounded mb-2">
+      <p class="text-xs text-gray-500 mb-4">🌼 Please provide a valid board title.</p>
+      <div class="flex justify-end gap-2">
+        <button onclick="toggleModal('editBoardModal')" class="border px-4 py-1 rounded">Cancel</button>
+        <button class="bg-blue-600 text-white px-4 py-1 rounded">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleModal(id) {
+      document.getElementById(id).classList.toggle('hidden');
+    }
+
+    // Toggle chọn background
+    document.querySelectorAll('.bg-option').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.bg-option').forEach(el => el.classList.remove('selected'));
+        item.classList.add('selected');
+      });
+    });
+
+    // Toggle chọn color
+    document.querySelectorAll('.color-option').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+        item.classList.add('selected');
+      });
+    });
+  </script>
+
+
 </body>
 
 </html>

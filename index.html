@@ -202,25 +202,9 @@
             document.getElementById("messagePanel").innerHTML = "";
         }
 
-        function login() {
-            const email = document.getElementById("loginEmail").value.trim();
-            const password = document.getElementById("loginPassword").value.trim();
-
-            if (!email || !password) {
-                let msg = "";
-                if (!password) msg += "Mật khẩu không được bỏ trống<br>";
-                if (!email) msg += "Email không được bỏ trống";
-                showMessage("error", msg);
-                return;
-            }
-
-            const user = JSON.parse(localStorage.getItem(email));
-            if (user && user.password === password) {
-                showMessage("success", "Đăng nhập thành công");
-                setTimeout(() => window.location.href = "index.html", 1000);
-            } else {
-                showMessage("error", "Email hoặc mật khẩu không đúng");
-            }
+        function isValidEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
         }
 
         function register() {
@@ -228,8 +212,16 @@
             const username = document.getElementById("regUsername").value.trim();
             const password = document.getElementById("regPassword").value.trim();
 
-            if (!email || !username || !password) {
-                showMessage("error", "Vui lòng điền đầy đủ thông tin!");
+            let msg = "";
+
+            if (!username) msg += "Họ và tên không được để trống<br>";
+            if (!email) msg += "Email không được để trống<br>";
+            else if (!isValidEmail(email)) msg += "Email không đúng định dạng<br>";
+            if (!password) msg += "Mật khẩu không được để trống<br>";
+            else if (password.length < 8) msg += "Mật khẩu phải có ít nhất 8 ký tự<br>";
+
+            if (msg) {
+                showMessage("error", msg);
                 return;
             }
 
@@ -246,6 +238,28 @@
             localStorage.setItem(email, JSON.stringify(user));
             showMessage("success", "Đăng ký thành công! Mời bạn đăng nhập.");
             toggleForms();
+        }
+
+        function login() {
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPassword").value.trim();
+
+            let msg = "";
+            if (!email) msg += "Email không được để trống<br>";
+            if (!password) msg += "Mật khẩu không được để trống<br>";
+
+            if (msg) {
+                showMessage("error", msg);
+                return;
+            }
+
+            const user = JSON.parse(localStorage.getItem(email));
+            if (user && user.password === password) {
+                showMessage("success", "Đăng nhập thành công");
+                setTimeout(() => window.location.href = "index.html", 1000);
+            } else {
+                showMessage("error", "Email hoặc mật khẩu không đúng");
+            }
         }
     </script>
 

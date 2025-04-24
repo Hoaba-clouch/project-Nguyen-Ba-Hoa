@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trello Board</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r p-4">
+            <img src="assets/trello-logo.svg" alt="Trello Logo" class="w-28 mb-6">
+            <div class="text-sm font-semibold text-gray-500 mb-2">YOUR WORKSPACES</div>
+            <ul class="space-y-2 mb-6 text-blue-600">
+                <li class="cursor-pointer font-semibold"><i class="fa-solid fa-bars mr-2"></i>Boards</li>
+                <li class="cursor-pointer"><i class="fa-regular fa-star mr-2"></i>Starred Boards</li>
+                <li class="cursor-pointer"><i class="fa-regular fa-rectangle-xmark mr-2"></i>Closed Boards</li>
+            </ul>
+            <div class="text-sm font-semibold text-gray-500 mb-2">Your boards</div>
+            <ul class="space-y-2">
+                <li class="text-blue-600 cursor-pointer">123123213</li>
+                <li class="text-blue-600 cursor-pointer">42314</li>
+                <li class="text-blue-600 cursor-pointer">My Trello board</li>
+                <li class="text-gray-900 font-semibold bg-gray-200 rounded px-2 py-1">Tổ chức sự kiện ...</li>
+            </ul>
+        </aside>
+
+        <!-- Main Board Content -->
+        <main class="flex-1">
+            <!-- Header -->
+            <div class="flex justify-between items-center bg-white px-6 py-4 border-b">
+                <h2 class="text-lg font-semibold">Tổ chức sự kiện Year-end party !</h2>
+                <div class="space-x-2">
+                    <button class="px-3 py-1 text-sm rounded border">Board</button>
+                    <button class="px-3 py-1 text-sm rounded border">Table</button>
+                    <button class="px-3 py-1 text-sm rounded border text-red-600" onclick="toggleCloseConfirm()">Close
+                        this board</button>
+                    <button class="px-3 py-1 text-sm rounded border">Filters</button>
+                </div>
+            </div>
+
+            <!-- Lists -->
+            <div class="flex space-x-4 px-6 py-6 overflow-x-auto">
+                <!-- List 1 -->
+                <div class="bg-gray-100 rounded-md p-3 w-64 shrink-0">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-semibold">Todo</span>
+                        <button class="text-gray-500">...</button>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="bg-white rounded p-2 shadow flex items-center gap-2"><input type="checkbox"
+                                checked>Thuê DJ</div>
+                        <div class="bg-white rounded p-2 shadow flex items-center gap-2"><input type="checkbox"
+                                checked>Lên kịch bản chương trình</div>
+                        <div class="bg-white rounded p-2 shadow">Chuẩn bị kịch</div>
+                        <div class="bg-white rounded p-2 shadow flex items-center gap-2"><input type="checkbox"
+                                checked>Kịch bản</div>
+                        <div class="bg-white rounded p-2 shadow">Thuê MC</div>
+                    </div>
+                    <button class="text-sm mt-3 text-left text-gray-600 hover:text-gray-800">+ Add a card</button>
+                </div>
+
+                <!-- List 2 -->
+                <div class="bg-gray-100 rounded-md p-3 w-64 shrink-0">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-semibold">In-progress</span>
+                        <button class="text-gray-500">...</button>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="bg-white rounded p-2 shadow">+ Add a card</div>
+                    </div>
+                </div>
+
+                <!-- Add another list -->
+                <div
+                    class="bg-gray-200 rounded-md p-3 w-64 flex items-center justify-center text-gray-700 cursor-pointer">
+                    + Add another list
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Board Modal -->
+    <div id="createBoardModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded shadow-md w-96">
+            <h3 class="text-lg font-semibold mb-4">Create board</h3>
+            <p class="font-medium mb-2">Background</p>
+            <div class="flex space-x-2 mb-3">
+                <img src="https://picsum.photos/id/1005/60/40" class="rounded cursor-pointer">
+                <img src="https://picsum.photos/id/1006/60/40" class="rounded cursor-pointer">
+                <img src="https://picsum.photos/id/1008/60/40" class="rounded cursor-pointer">
+                <img src="https://picsum.photos/id/1010/60/40" class="rounded cursor-pointer">
+            </div>
+            <p class="font-medium mb-2">Color</p>
+            <div class="flex space-x-2 mb-3">
+                <div class="w-6 h-6 bg-red-500 rounded-full cursor-pointer"></div>
+                <div class="w-6 h-6 bg-purple-500 rounded-full cursor-pointer"></div>
+                <div class="w-6 h-6 bg-green-500 rounded-full cursor-pointer"></div>
+                <div class="w-6 h-6 bg-blue-500 rounded-full cursor-pointer"></div>
+                <div class="w-6 h-6 bg-yellow-400 rounded-full cursor-pointer"></div>
+                <div class="w-6 h-6 bg-pink-500 rounded-full cursor-pointer"></div>
+            </div>
+            <input type="text" placeholder="Board title *" class="w-full p-2 border rounded mb-2">
+            <p class="text-sm text-yellow-500 mb-4">⚠️ Please provide a valid board title.</p>
+            <div class="flex justify-end space-x-2">
+                <button class="border px-3 py-1 rounded" onclick="toggleCreateModal()">Close</button>
+                <button class="bg-blue-500 text-white px-3 py-1 rounded">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Close Dialog -->
+    <div id="confirmCloseDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded shadow-md w-96 text-center">
+            <div class="text-4xl text-orange-500 mb-2">!</div>
+            <h3 class="text-lg font-semibold mb-2">Are you sure?</h3>
+            <p class="mb-4 text-sm text-gray-600">You won't be able to revert this!</p>
+            <div class="flex justify-center space-x-3">
+                <button class="bg-blue-500 text-white px-4 py-1 rounded" onclick="toggleCloseConfirm()">Yes, close
+                    it!</button>
+                <button class="bg-red-500 text-white px-4 py-1 rounded" onclick="toggleCloseConfirm()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCreateModal() {
+            document.getElementById('createBoardModal').classList.toggle('hidden');
+        }
+
+        function toggleCloseConfirm() {
+            document.getElementById('confirmCloseDialog').classList.toggle('hidden');
+        }
+    </script>
+</body>
+
+</html>
