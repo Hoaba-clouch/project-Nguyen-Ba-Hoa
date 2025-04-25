@@ -45,98 +45,239 @@
             </div>
 
             <!-- Lists -->
-            <div class="flex space-x-4 px-6 py-6 overflow-x-auto">
-                <!-- List 1 -->
-                <div class="bg-gray-100 rounded-md p-3 w-64 shrink-0">
+            <!-- Modal: Edit Task Detail -->
+            <div id="editTaskModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+                <div class="bg-white p-6 rounded-md shadow-md w-full max-w-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold">Edit Task</h3>
+                        <button onclick="toggleEditTaskModal()"
+                            class="text-gray-500 hover:text-gray-800">&times;</button>
+                    </div>
+
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Task title</label>
+                    <input type="text" class="w-full p-2 border border-gray-300 rounded mb-3"
+                        placeholder="Enter task title">
+
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea rows="3" class="w-full p-2 border border-gray-300 rounded mb-3"
+                        placeholder="Enter task description..."></textarea>
+
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Due date</label>
+                    <input type="date" class="w-full p-2 border border-gray-300 rounded mb-4">
+
+                    <div class="flex justify-end gap-3">
+                        <button onclick="toggleEditTaskModal()"
+                            class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded hover:bg-gray-100">Cancel</button>
+                        <button class="px-4 py-2 text-sm text-white bg-blue-600 rounded hover:bg-blue-700">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- List View Like Trello UI -->
+            <div class="flex gap-4 p-6 overflow-x-auto"
+                style="background-image: url('https://images.unsplash.com/photo-1609268258333-3c3f6f90f7ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80'); background-size: cover;">
+
+                <!-- Example List -->
+                <div class="w-72 bg-white/80 backdrop-blur-md rounded-lg shadow p-3">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="font-semibold">Todo</span>
-                        <button class="text-gray-500">...</button>
+                        <div id="listTitle1" class="text-sm font-semibold">rytrtyt</div>
+                        <div class="text-gray-400 cursor-pointer" onclick="editListTitle('listTitle1')">⋯</div>
                     </div>
                     <div class="space-y-2">
-                        <div class="bg-white rounded p-2 shadow flex items-center gap-2"><input type="checkbox"
-                                checked>Thuê DJ</div>
-                        <div class="bg-white rounded p-2 shadow flex items-center gap-2"><input type="checkbox"
-                                checked>Lên kịch bản chương trình</div>
-                        <div class="bg-white rounded p-2 shadow">Chuẩn bị kịch</div>
-                        <div class="bg-white rounded p-2 shadow flex items-center gap-2"><input type="checkbox"
-                                checked>Kịch bản</div>
-                        <div class="bg-white rounded p-2 shadow">Thuê MC</div>
+                        <div class="bg-white rounded shadow px-3 py-2 text-sm">hkjkhjk</div>
+                        <div class="bg-white rounded shadow px-3 py-2 text-sm">hgjhgjghj</div>
                     </div>
-                    <button class="text-sm mt-3 text-left text-gray-600 hover:text-gray-800">+ Add a card</button>
+                    <div class="mt-3" id="addCardArea1">
+                        <div class="text-sm text-blue-600 cursor-pointer flex items-center gap-1"
+                            onclick="showAddCardInput('addCardArea1')">➕ Thêm thẻ</div>
+                    </div>
                 </div>
 
-                <!-- List 2 -->
-                <div class="bg-gray-100 rounded-md p-3 w-64 shrink-0">
+                <div class="w-72 bg-white/80 backdrop-blur-md rounded-lg shadow p-3">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="font-semibold">In-progress</span>
-                        <button class="text-gray-500">...</button>
+                        <div id="listTitle2" class="text-sm font-semibold">XVCXV</div>
+                        <div class="text-gray-400 cursor-pointer" onclick="editListTitle('listTitle2')">⋯</div>
                     </div>
                     <div class="space-y-2">
-                        <div class="bg-white rounded p-2 shadow">+ Add a card</div>
+                        <div class="bg-white rounded shadow px-3 py-2 text-sm">dfgdfg</div>
+                        <div class="bg-white rounded shadow px-3 py-2 text-sm">
+                            dfgdfg
+                            <div class="mt-1 text-xs text-blue-600">Thẻ này là một mẫu.</div>
+                        </div>
+                    </div>
+                    <div class="mt-3" id="addCardArea2">
+                        <div class="text-sm text-blue-600 cursor-pointer flex items-center gap-1"
+                            onclick="showAddCardInput('addCardArea2')">➕ Thêm thẻ</div>
+                    </div>
+                </div>
+
+                <div class="w-72 bg-white/80 backdrop-blur-md rounded-lg shadow p-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <div id="listTitle3" class="text-sm font-semibold">XVCXVCXCV</div>
+                        <div class="text-gray-400 cursor-pointer" onclick="editListTitle('listTitle3')">⋯</div>
+                    </div>
+                    <div class="mt-3" id="addCardArea3">
+                        <div class="text-sm text-blue-600 cursor-pointer flex items-center gap-1"
+                            onclick="showAddCardInput('addCardArea3')">➕ Thêm thẻ</div>
                     </div>
                 </div>
 
                 <!-- Add another list -->
                 <div
-                    class="bg-gray-200 rounded-md p-3 w-64 flex items-center justify-center text-gray-700 cursor-pointer">
-                    + Add another list
+                    class="w-72 bg-white/30 hover:bg-white/40 backdrop-blur-md rounded-lg shadow px-4 py-3 flex items-center justify-center text-sm text-blue-800 cursor-pointer">
+                    ➕ Thêm danh sách khác
+                </div>
+
+            </div>
+            <!-- Modal: Edit Task Detail (Like Trello) -->
+            <div id="editTaskModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h2 class="text-xl font-semibold mb-1">Kịch bản</h2>
+                            <div class="text-sm text-gray-500">in list <span
+                                    class="inline-block bg-gray-100 text-gray-700 px-2 py-0.5 text-xs rounded">IN-PROGRESS</span>
+                            </div>
+                        </div>
+                        <button onclick="toggleEditTaskModal()"
+                            class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <!-- Left Column -->
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold mb-2">Description</h4>
+                            <div class="border rounded overflow-hidden mb-4">
+                                <div class="flex items-center gap-2 p-2 border-b text-sm text-gray-700 bg-gray-50">
+                                    <span class="font-bold">Aa</span>
+                                    <button class="font-bold">B</button>
+                                    <button class="italic">I</button>
+                                    <button>•</button>
+                                    <button>1.</button>
+                                    <button>🔗</button>
+                                    <button>+</button>
+                                    <button>☀</button>
+                                    <button class="ml-auto">?</button>
+                                </div>
+                                <textarea rows="6"
+                                    class="w-full p-3 text-sm border-0 focus:ring-0 focus:outline-none resize-none"
+                                    placeholder="Add a more detailed description..."></textarea>
+                            </div>
+
+                            <div class="flex gap-3">
+                                <button
+                                    class="bg-blue-600 text-white px-4 py-2 text-sm rounded hover:bg-blue-700">Save</button>
+                                <button onclick="toggleEditTaskModal()"
+                                    class="text-sm text-gray-600 hover:underline">Cancel</button>
+                            </div>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="w-full md:w-48 flex flex-col gap-2">
+                            <button class="w-full bg-gray-100 hover:bg-gray-200 text-sm rounded px-3 py-2 text-left">📌
+                                Labels</button>
+                            <button class="w-full bg-gray-100 hover:bg-gray-200 text-sm rounded px-3 py-2 text-left">🕒
+                                Dates</button>
+                            <button
+                                class="w-full bg-red-500 hover:bg-red-600 text-white text-sm rounded px-3 py-2 text-left">Delete</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </main>
-    </div>
 
-    <!-- Create Board Modal -->
-    <div id="createBoardModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-        <div class="bg-white p-6 rounded shadow-md w-96">
-            <h3 class="text-lg font-semibold mb-4">Create board</h3>
-            <p class="font-medium mb-2">Background</p>
-            <div class="flex space-x-2 mb-3">
-                <img src="https://picsum.photos/id/1005/60/40" class="rounded cursor-pointer">
-                <img src="https://picsum.photos/id/1006/60/40" class="rounded cursor-pointer">
-                <img src="https://picsum.photos/id/1008/60/40" class="rounded cursor-pointer">
-                <img src="https://picsum.photos/id/1010/60/40" class="rounded cursor-pointer">
-            </div>
-            <p class="font-medium mb-2">Color</p>
-            <div class="flex space-x-2 mb-3">
-                <div class="w-6 h-6 bg-red-500 rounded-full cursor-pointer"></div>
-                <div class="w-6 h-6 bg-purple-500 rounded-full cursor-pointer"></div>
-                <div class="w-6 h-6 bg-green-500 rounded-full cursor-pointer"></div>
-                <div class="w-6 h-6 bg-blue-500 rounded-full cursor-pointer"></div>
-                <div class="w-6 h-6 bg-yellow-400 rounded-full cursor-pointer"></div>
-                <div class="w-6 h-6 bg-pink-500 rounded-full cursor-pointer"></div>
-            </div>
-            <input type="text" placeholder="Board title *" class="w-full p-2 border rounded mb-2">
-            <p class="text-sm text-yellow-500 mb-4">⚠️ Please provide a valid board title.</p>
-            <div class="flex justify-end space-x-2">
-                <button class="border px-3 py-1 rounded" onclick="toggleCreateModal()">Close</button>
-                <button class="bg-blue-500 text-white px-3 py-1 rounded">Create</button>
-            </div>
+            <script>
+                function toggleEditTaskModal() {
+                    document.getElementById('editTaskModal').classList.toggle('hidden');
+                }
+            </script>
+
+            <script>
+                function toggleEditTaskModal() {
+                    document.getElementById('editTaskModal').classList.toggle('hidden');
+                }
+
+                function showAddCardInput(containerId) {
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = `
+        <div class="space-y-2">
+          <input type="text" placeholder="Nhập tiêu đề thẻ..." class="w-full p-2 text-sm border rounded" />
+          <div class="flex gap-2">
+            <button class="bg-blue-600 text-white px-3 py-1 text-sm rounded">Add card</button>
+            <button onclick="cancelAddCard('${containerId}')" class="px-3 py-1 text-sm">×</button>
+          </div>
         </div>
-    </div>
+      `;
+                }
 
-    <!-- Confirm Close Dialog -->
-    <div id="confirmCloseDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-        <div class="bg-white p-6 rounded shadow-md w-96 text-center">
-            <div class="text-4xl text-orange-500 mb-2">!</div>
-            <h3 class="text-lg font-semibold mb-2">Are you sure?</h3>
-            <p class="mb-4 text-sm text-gray-600">You won't be able to revert this!</p>
-            <div class="flex justify-center space-x-3">
-                <button class="bg-blue-500 text-white px-4 py-1 rounded" onclick="toggleCloseConfirm()">Yes, close
-                    it!</button>
-                <button class="bg-red-500 text-white px-4 py-1 rounded" onclick="toggleCloseConfirm()">Cancel</button>
-            </div>
+                function cancelAddCard(containerId) {
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = `
+        <div class="text-sm text-blue-600 cursor-pointer flex items-center gap-1" onclick="showAddCardInput('${containerId}')">➕ Thêm thẻ</div>
+      `;
+                }
+
+                function editListTitle(elementId) {
+                    const el = document.getElementById(elementId);
+                    const currentTitle = el.innerText;
+                    el.outerHTML = `
+        <div id="${elementId}" class="w-full flex items-center gap-2">
+          <input type="text" id="${elementId}-input" value="${currentTitle}" class="text-sm font-semibold w-full px-2 py-1 border rounded" />
+          <button onclick="saveListTitle('${elementId}')" class="text-sm text-blue-600">Lưu</button>
         </div>
-    </div>
+      `;
+                }
 
-    <script>
-        function toggleCreateModal() {
-            document.getElementById('createBoardModal').classList.toggle('hidden');
-        }
+                function saveListTitle(elementId) {
+                    const input = document.getElementById(`${elementId}-input`);
+                    const newTitle = input.value;
+                    input.parentElement.outerHTML =
+                        `<div id="${elementId}" class="text-sm font-semibold">${newTitle}</div>`;
+                }
 
-        function toggleCloseConfirm() {
-            document.getElementById('confirmCloseDialog').classList.toggle('hidden');
-        }
-    </script>
-</body>
+                function toggleEditTaskModal() {
+                    document.getElementById('editTaskModal').classList.toggle('hidden');
+                }
 
-</html>
+                function showAddCardInput(containerId) {
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = `
+      <div class="space-y-2">
+        <input type="text" placeholder="Nhập tiêu đề thẻ..." class="w-full p-2 text-sm border rounded" />
+        <div class="flex gap-2">
+          <button class="bg-blue-600 text-white px-3 py-1 text-sm rounded">Add card</button>
+          <button onclick="cancelAddCard('${containerId}')" class="px-3 py-1 text-sm">×</button>
+        </div>
+      </div>
+    `;
+                }
+
+                function cancelAddCard(containerId) {
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = `
+      <div class="text-sm text-blue-600 cursor-pointer flex items-center gap-1" onclick="showAddCardInput('${containerId}')">➕ Thêm thẻ</div>
+    `;
+                }
+
+                function editListTitle(elementId) {
+                    const el = document.getElementById(elementId);
+                    const currentTitle = el.innerText;
+                    el.outerHTML = `
+      <input type="text" id="${elementId}-input" value="${currentTitle}" class="text-sm font-semibold w-full px-2 py-1 border rounded" onkeydown="handleListTitleKey(event, '${elementId}')" />
+    `;
+                    setTimeout(() => document.getElementById(`${elementId}-input`).focus(), 0);
+                }
+
+                function handleListTitleKey(event, elementId) {
+                    if (event.key === 'Enter') {
+                        const input = document.getElementById(`${elementId}-input`);
+                        const newTitle = input.value;
+                        input.outerHTML = `<div id="${elementId}" class="text-sm font-semibold">${newTitle}</div>`;
+                    } else if (event.key === 'Escape') {
+                        const input = document.getElementById(`${elementId}-input`);
+                        const originalTitle = input.defaultValue;
+                        input.outerHTML = `<div id="${elementId}" class="text-sm font-semibold">${originalTitle}</div>`;
+                    }
+                }
+            </script>
