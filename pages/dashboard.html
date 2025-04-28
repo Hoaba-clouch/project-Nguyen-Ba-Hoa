@@ -124,7 +124,7 @@
                 </div>
 
                 <!-- Add another list -->
-                <div
+                <div id="addListContainer" onclick="showAddListInput()"
                     class="w-72 bg-white/30 hover:bg-white/40 backdrop-blur-md rounded-lg shadow px-4 py-3 flex items-center justify-center text-sm text-blue-800 cursor-pointer">
                     ➕ Thêm danh sách khác
                 </div>
@@ -242,22 +242,96 @@
 
                 function showAddCardInput(containerId) {
                     const container = document.getElementById(containerId);
-                    container.innerHTML = `
-      <div class="space-y-2">
-        <input type="text" placeholder="Nhập tiêu đề thẻ..." class="w-full p-2 text-sm border rounded" />
+
+                    // Nếu đã có form rồi thì không thêm nữa
+                    if (container.querySelector('form')) return;
+
+                    // Tạo form thêm thẻ
+                    const form = document.createElement('form');
+                    form.className = 'space-y-2 mt-2';
+                    form.autocomplete = 'off';
+                    form.innerHTML = `
+        <input type="text" placeholder="Nhập tiêu đề thẻ..." autocomplete="off" class="w-full p-2 text-sm border rounded" />
         <div class="flex gap-2">
-          <button class="bg-blue-600 text-white px-3 py-1 text-sm rounded">Add card</button>
-          <button onclick="cancelAddCard('${containerId}')" class="px-3 py-1 text-sm">×</button>
+            <button type="submit" class="bg-blue-600 text-white px-3 py-1 text-sm rounded">Add card</button>
+            <button type="button" onclick="cancelAddCard('${containerId}')" class="px-3 py-1 text-sm">×</button>
         </div>
-      </div>
     `;
+
+                    // Ẩn nút "➕ Thêm thẻ"
+                    const addButton = container.querySelector('div');
+                    if (addButton) {
+                        addButton.style.display = 'none';
+                    }
+
+                    container.appendChild(form);
+
+                    // Focus vào input ngay
+                    form.querySelector('input').focus();
+
+                    // Xử lý submit
+                    form.addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        // Huynh có thể thêm logic thêm thẻ vào đây sau
+                        const inputValue = form.querySelector('input').value.trim();
+                        if (inputValue) {
+                            const newCard = document.createElement('div');
+                            newCard.className = 'bg-white rounded shadow px-3 py-2 text-sm';
+                            newCard.textContent = inputValue;
+                            container.insertBefore(newCard, form);
+                            form.querySelector('input').value = '';
+                        }
+                    });
                 }
 
                 function cancelAddCard(containerId) {
                     const container = document.getElementById(containerId);
-                    container.innerHTML = `
-      <div class="text-sm text-blue-600 cursor-pointer flex items-center gap-1" onclick="showAddCardInput('${containerId}')">➕ Thêm thẻ</div>
+                    const form = container.querySelector('form');
+
+                    if (form) {
+                        form.remove();
+                    }
+
+                    const addButton = container.querySelector('div');
+                    if (addButton) {
+                        addButton.style.display = 'flex';
+                    }
+                }
+
+                function showAddListInput() {
+                    const container = document.getElementById('addListContainer');
+
+                    // Nếu đã có form thì không thêm nữa
+                    if (container.querySelector('form')) return;
+
+                    // Tạo form nhập tên list mới
+                    const form = document.createElement('form');
+                    form.className = 'space-y-2 mt-2 w-full';
+                    form.autocomplete = 'off';
+                    form.innerHTML = `
+        <input type="text" placeholder="Nhập tên danh sách..." autocomplete="off" class="w-full p-2 text-sm border rounded" />
+        <div class="flex gap-2">
+            <button type="submit" class="bg-blue-600 text-white px-3 py-1 text-sm rounded">Add list</button>
+            <button type="button" onclick="cancelAddList()" class="px-3 py-1 text-sm">×</button>
+        </div>
     `;
+
+                    // Ẩn nút "Thêm danh sách khác"
+                    container.innerHTML = '';
+                    container.appendChild(form);
+
+                    // Focus vào input
+                    form.querySelector('input').focus();
+
+                    // Xử lý submit form
+                    form.addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        const inputValue = form.querySelector('input').value.trim();
+                        if (inputValue) {
+                            createNewList(inputValue);
+                            cancelAddList();
+                        }
+                    });
                 }
 
                 function editListTitle(elementId) {
@@ -279,5 +353,16 @@
                         const originalTitle = input.defaultValue;
                         input.outerHTML = `<div id="${elementId}" class="text-sm font-semibold">${originalTitle}</div>`;
                     }
+                }
+
+                function cancelAddList() {
+                    const container = document.getElementById('addListContainer');
+
+                    container.innerHTML = `➕ Thêm danh sách khác`;
+
+                    // Quan trọng: Phải gán lại đúng các class CSS + sự kiện onclick
+                    container.className =
+                        'w-72 bg-white/30 hover:bg-white/40 backdrop-blur-md rounded-lg shadow px-4 py-3 flex items-center justify-center text-sm text-blue-800 cursor-pointer';
+                    container.setAttribute('onclick', 'showAddListInput()');
                 }
             </script>

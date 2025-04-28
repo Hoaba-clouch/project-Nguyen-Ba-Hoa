@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Login & Register</title>
+  <link rel="stylesheet" href="./login.css" />
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="login">
+      <!-- Login Form -->
+      <form class="loginBx active" id="loginForm" onsubmit="handleLogin(event)">
+        <h2>
+          <i class="fa-solid fa-right-to-bracket"></i>
+          Login
+          <i class="fa-solid fa-heart"></i>
+        </h2>
+        <input type="text" id="loginUsername" placeholder="Email" autocomplete="off" />
+        <input type="password" id="loginPassword" placeholder="Password" autocomplete="off" />
+        <input type="submit" value="Sign in" />
+        <div class="group">
+          <a href="#">Forgot Password?</a>
+          <a href="#" onclick="toggleForm('registerBox')">Sign up</a>
+        </div>
+      </form>
+
+      <!-- Register Form -->
+      <form class="loginBx register" id="registerBox" onsubmit="handleRegister(event)">
+        <h2>
+          <i class="fa-solid fa-user-plus"></i>
+          Register
+          <i class="fa-solid fa-star"></i>
+        </h2>
+        <input type="text" id="regFullName" placeholder="Full Name" autocomplete="off" />
+        <input type="text" id="regUsername" placeholder="Username" autocomplete="off" />
+        <input type="text" id="regEmail" placeholder="Email" autocomplete="off" />
+        <input type="password" id="regPassword" placeholder="Password" autocomplete="off" />
+        <input type="password" id="regConfirm" placeholder="Confirm Password" autocomplete="off" />
+        <input type="submit" value="Register" />
+        <div class="group">
+          <a href="#">Already have an account?</a>
+          <a href="#" onclick="toggleForm('loginForm')">Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notification Box -->
+  <div id="notify" class="notification"></div>
+
+
+  <script src="login.js"></script>
+
+</body>
+
+</html>
