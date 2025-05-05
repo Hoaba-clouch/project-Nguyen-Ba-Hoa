@@ -24,12 +24,9 @@ body {
   color: #fff;
   font-family: "Inter", "DM Sans", Arial, sans-serif;
 }
-.colortext{
-  color: #e6dfdf;
-  text-align: center;
-  font-weight: 200;
-  font-size: 15px;
-
+.text-black{
+  color: #d3c8c8;
+  font-weight: 500;
 }
 *,
 *::before,
@@ -53,8 +50,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: absolute;
-  top: 2px;
+  
 
 }
 
@@ -94,8 +90,8 @@ body {
 .aurora__item {
   overflow: hidden;
   position: absolute;
-  top: -1300px;
-  left: -1300px;
+  top: -1200px;
+  left: -1200px;
   width: 100vw;
   height: 100vw;
   background-color: var(--clr-1);
@@ -115,7 +111,7 @@ body {
 .aurora__item:nth-of-type(2) {
   background-color: var(--clr-3);
   
-  left: 0;
+  right: -50%;
   top: 0;
   animation: aurora-border 6s ease-in-out infinite,
     aurora-2 12s ease-in-out infinite alternate;
@@ -264,12 +260,7 @@ body {
   background-color: #f5f5f5;
   min-height: 100vh;
  display: grid;
- overflow: hidden;
-  scrollbar-width: none;   
-  
-}
-body::-webkit-scrollbar {
-  display: none;               /* Chrome, Safari */
+
 }
 
 .header {
@@ -280,20 +271,19 @@ body::-webkit-scrollbar {
   right: 0;
   width: 100%; /* hoặc width sidebar của huynh */
   height: 50px;
-  background-color: rgba(255, 255, 255, 0.5); /* tối mờ */
-  backdrop-filter: blur(7px);
-
+  
+  background-color: #fff;
   
   display: flex;
   
   padding: 0 20px;
   z-index: 1000;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  
-  background-position: top center;
+  background-image: url(https://www.pixelstalk.net/wp-content/uploads/image12/Nike-Wallpaper-4K-with-a-swoosh-logo-overlaid-on-a-subtle-gradient-from-light-blue-to-white.jpg);
+  background-size: cover;
+  background-position: 50% 27%;
   background-repeat: no-repeat;
-  overflow: hidden;
-
+  backdrop-filter: blur(1px);
 
   
 }
@@ -346,12 +336,10 @@ body::-webkit-scrollbar {
 .main {
   flex: 1;
   padding: 20px;
-  margin-top: 150px !important;
-  backdrop-filter: blur(3px);
+  margin-top: 250px;
+  backdrop-filter: blur(8px);
   border-top-right-radius: 20px;
-height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
-  width: 1046px;
+  min-height: 50rem;
  
 }
 
@@ -359,15 +347,16 @@ height: 100vh;
 
 .sidebar {
   width: 220px;
-margin-top: 150px;
+margin-top: 250px;
   border-right: 1px solid #ddd;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.4);
-  height: 100vh;
+
+  height: calc(100vh - 50px);
   overflow-y: auto;
   box-shadow: inset -1px 0 0 #e0e0e0;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(5px);
   border-top-left-radius: 20px;
+  min-height: 50rem;
 }
 
 .sidebar h3 {
@@ -583,7 +572,7 @@ label {
 
   z-index: 1000;
 position: absolute;
-  top: -25px;
+  top: 10%;
   left: 50%;
   
 }
@@ -644,7 +633,6 @@ label {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  height: 91vh;
  
 }
 
@@ -802,7 +790,7 @@ input[type="text"]:focus {
   display: none; /* Mặc định ẩn */
   align-items: center;
   justify-content: center;
-  z-index: 99999;
+  z-index: 9999;
 }
 
 .confirm-content {
@@ -860,32 +848,3 @@ input[type="text"]:focus {
 }
 
 
-.card .reopen-wrapper {
-  display: none;
-  position: absolute;
-  top: 0px;
-  left: -3px;
- 
-}
-
-.reopen-btn:hover{
-  transform: scale(1.1);
-  background-color: #4caf50 ;
-}
-.card:hover .reopen-wrapper {
-  display: block;
-
-}
-
-.reopen-btn {
-background-color: rgba(255, 255, 255, 0.9) ;
-  border: none;
-  color: rgb(0, 0, 0);
-  padding: 2px 1px;
-  border-radius: 6px;
-  font-size: 13px;
-  cursor: pointer;
-}
-.reopen-btn i {
-  margin-right: 5px;
-}

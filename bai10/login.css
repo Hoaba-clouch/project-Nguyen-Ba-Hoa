@@ -7,10 +7,11 @@ body {
   align-items: center;
   min-height: 100vh;
   background: #25252b;
-  background-image: url(https://sdmntprsouthcentralus.oaiusercontent.com/files/00000000-1bcc-61f7-a9a3-17f53d93f5ef/raw?se=2025-04-28T03%3A59%3A36Z&sp=r&sv=2024-08-04&sr=b&scid=2134960d-4d8a-5019-8cee-6caa09959918&skoid=dfdaf859-26f6-4fed-affc-1befb5ac1ac2&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-27T21%3A05%3A20Z&ske=2025-04-28T21%3A05%3A20Z&sks=b&skv=2024-08-04&sig=g%2BPrP8z6vM41OlHfz8e2DfvqCtbfY/s/YBMXydmaF0Y%3D);
+  background-image: url(https://getwallpapers.com/wallpaper/full/6/2/2/1404945-full-size-blue-nature-wallpaper-1920x1200-for-iphone-5.jpg);
   background-repeat: no-repeat;
   background: cover;
   background-size: cover;
+  
 }
 
 * {
@@ -25,8 +26,8 @@ body {
 
 .box {
   position: relative;
-  width: 400px;
-  height: 200px;
+  width: 420px;
+  height: 230px;
   background: repeating-conic-gradient(
     from var(--a),
     #fff 0%,
@@ -77,9 +78,9 @@ body {
   content: "";
   position: absolute;
   inset: 4px;
-  background: #2d2d39;
+  background-color: rgb(12, 12, 12);
   border-radius: 15px;
-  border: 8px solid #25252b;
+  border: 8px solid rgba(0, 0, 0, 0.1);
 }
 
 .box:hover {
@@ -104,7 +105,7 @@ body {
   align-items: center;
   flex-direction: column;
   border-radius: 10px;
-  background: #00000033;
+  background-color: rgb(7, 7, 7);
   color: #fff;
   z-index: 1000;
   box-shadow: inset 0 10px 20px #00000080;
@@ -143,13 +144,13 @@ input {
   border: none;
   font-size: 1em;
   color: #fff;
-  background: #0000001a;
+  background: #ffffff1a;
   border: 2px solid #fff;
   border-radius: 30px;
 }
 
 input::placeholder {
-  color: #999;
+  color: #969393;
 }
 
 input[type="submit"] {

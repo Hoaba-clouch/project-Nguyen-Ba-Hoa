@@ -50,25 +50,39 @@ function renderBoards() {
                 card.style.backgroundImage = `url('${board.backdrop}')`;
             }
             card.innerHTML = `
-                <div class="content">
-                    <div class="star-wrapper" onclick="toggleStar(${board.id})">
-                        <i class="fas fa-star ${board.is_starred ? 'starred' : ''}"></i>
-                    </div>
-                    <div class="delete-wrapper" onclick="deleteBoard(${board.id})">
-                        <i class="fas fa-trash"></i>
-                    </div>
-                    <div class="title">${board.title}</div>
-                    <button class="btn" onclick="openEditBoard(${board.id})">
-                        <i class="fas fa-pen-to-square"></i> Edit this board
-                    </button>
+            <div class="content">
+              ${board.is_closed ? `
+                <div class="reopen-wrapper">
+                  <button class="reopen-btn" onclick="event.stopPropagation(); reopenBoard(${board.id})">
+                    <i class="fas fa-undo"></i> Mở lại
+                  </button>
                 </div>
-            `;
+              ` : `
+                <div class="star-wrapper" onclick="event.stopPropagation(); toggleStar(${board.id})">
+                  <i class="fas fa-star ${board.is_starred ? 'starred' : ''}"></i>
+                </div>
+              `}
+              <div class="delete-wrapper" onclick="event.stopPropagation(); deleteBoard(${board.id})">
+                <i class="fas fa-trash"></i>
+              </div>
+              <div class="title">${board.title}</div>
+              <button class="btn" onclick="event.stopPropagation(); openEditBoard(${board.id})">
+                <i class="fas fa-pen-to-square"></i> Edit this board
+              </button>
+            </div>
+          `;
+          
+
+            card.onclick = () => {
+                window.location.href = `board.html?id=${board.id}`;
+            };
+
             boardList.appendChild(card);
         });
     } else {
         // Nếu không có board thì hiển thị thông báo
         const emptyMessage = document.createElement('div');
-        emptyMessage.className = 'color text-black 400 text-center';
+        emptyMessage.className = 'colortext';
         emptyMessage.textContent = 'Không có bảng nào trong mục này.';
         boardList.appendChild(emptyMessage);
     }
@@ -101,7 +115,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function renderStarredBoards() {
     const starredList = document.querySelector('.page-content-starred');
-    starredList.innerHTML = '';
+    if (starredList) {
+      starredList.innerHTML = '';
+      // render các board yêu thích vào đây
+    }
+    
 
     const starredBoards = loggedInUser.boards.filter(board => board.is_starred && !board.is_closed);
 
@@ -131,7 +149,18 @@ function renderStarredBoards() {
         });
     }
 }
-
+function reopenBoard(boardId) {
+    const board = loggedInUser.boards.find(b => b.id === boardId);
+    if (!board) return;
+  
+    board.is_closed = false;
+    updateUserData();
+  
+    renderBoards();
+    renderStarredBoards();
+    showMessage("Đã mở lại board.");
+  }
+  
 
 
 function showAllBoards() {
@@ -154,7 +183,7 @@ function showStarredBoards() {
 function showClosedBoards() {
     currentFilter = "closed";
     const starredSection = document.getElementById('starredBoardsSection');
-    starredSection.style.opacity = "1";
+    starredSection.style.opacity = "0";
     starredSection.style.pointerEvents = "none";
 
     renderBoards();
@@ -165,8 +194,21 @@ function showClosedBoards() {
 
 // Mở modal tạo board
 function openCreateBoardModal() {
+    // Xóa toàn bộ trạng thái "selected"
+    document.querySelectorAll('.bg-item').forEach(item => {
+        item.classList.remove('selected');
+    });
+
+    // Reset biến backdrop được chọn
+    selectedBackdrop = "";
+
+    // Xóa input nếu cần
+    document.getElementById('newBoardTitle').value = "";
+
+    // Hiện modal
     document.getElementById('createBoardModal').style.display = 'block';
 }
+
 
 // Tạo board mới
 function createBoard() {
@@ -191,14 +233,17 @@ function createBoard() {
     });
 
     localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+    updateUserData();
     renderBoards();
+    renderSidebarBoards();
+ 
     document.getElementById('createBoardModal').style.display = 'none';
 }
 
 
 // Chọn backdrop
 function selectBackdrop(url) {
-    selectedBackdrop = url;
+    selectedBackdrop = url.replace(/^(\.*\/)*assets\//, '../assets/');
     // Bỏ selected ở tất cả ô trước
     document.querySelectorAll('.bg-item').forEach(item => {
         item.classList.remove('selected');
@@ -214,8 +259,16 @@ function openEditBoard(boardId) {
     const board = loggedInUser.boards.find(b => b.id === boardId);
     if (!board) return;
 
+    // Xóa tất cả trạng thái đã chọn
+    document.querySelectorAll('.bg-item').forEach(item => {
+        item.classList.remove('selected');
+    });
+
+    // Reset biến tạm
+    selectedBackdrop = "";
+
+    // Set giá trị hiện tại vào input
     document.getElementById('editBoardTitle').value = board.title;
-    selectedBackdrop = board.backdrop;
     currentEditingBoardId = boardId;
 
     document.getElementById('editBoardModal').style.display = 'block';
@@ -238,6 +291,7 @@ function saveEditBoard() {
     board.backdrop = selectedBackdrop;
 
     localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+    updateUserData();
     renderBoards();
     renderStarredBoards();
 
@@ -251,7 +305,10 @@ function deleteBoard(boardId) {
         () => {
             loggedInUser.boards = loggedInUser.boards.filter(b => b.id !== boardId);
             localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+
+            updateUserData();
             renderBoards();
+
             renderStarredBoards();
 
         }
@@ -263,24 +320,26 @@ function deleteBoard(boardId) {
 function toggleStar(boardId) {
     const board = loggedInUser.boards.find(b => b.id === boardId);
     if (!board) return;
-
-    // Nếu chưa có is_starred, thêm vào mặc định false
-    if (typeof board.is_starred === 'undefined') {
-        board.is_starred = false;
-    }
-
-    // Đảo ngược trạng thái is_starred
+  
     board.is_starred = !board.is_starred;
-
-    // Lưu lại vào localStorage
     localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
-
-    // Cập nhật lại giao diện
-    renderBoards();
-    renderStarredBoards();
-
-}
-
+    updateUserData();
+  
+    // ✅ Nếu đang ở board.html → cập nhật DOM icon ngay lập tức
+    const icon = document.querySelector('#board-title-container .fa-star');
+    if (icon) {
+      icon.classList.toggle('fas', board.is_starred);
+      icon.classList.toggle('far', !board.is_starred);
+      icon.classList.toggle('starred', board.is_starred);
+    }
+  
+    // ✅ Nếu đang ở dashboard thì mới render toàn bộ
+    if (document.querySelector('.page-content')) {
+      renderBoards();
+      renderStarredBoards();
+    }
+  }
+  
 function showConfirm(message, subMessage, onConfirm) {
     const box = document.getElementById('confirmBox');
     box.innerHTML = `
@@ -338,6 +397,16 @@ function logout() {
     setTimeout(() => {
         window.location.href = 'login.html';
     }, 2700); // Đợi 1 giây cho người dùng đọc thông báo
+}
+
+function updateUserData() {
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    const index = users.findIndex(u => u.username === loggedInUser.username);
+    if (index !== -1) {
+        users[index] = loggedInUser;
+        localStorage.setItem('users', JSON.stringify(users));
+    }
+    localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
 }
 
 // --- Khởi động ---

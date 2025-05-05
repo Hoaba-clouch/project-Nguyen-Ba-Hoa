@@ -7,6 +7,8 @@
     <title>Edit Task Modal - Trello Style</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylee.css">
+    <link rel="stylesheet" href="button.css">
 
     <style>
         .modal-box {
@@ -98,13 +100,65 @@
                 <button class="w-full bg-gray-100 text-sm modal-label-btn px-3 py-2 text-left flex items-center gap-2">
                     <i class="far fa-clock"></i> Dates
                 </button>
-                <button
+                <button onclick="deleteBoard(1)"
                     class="w-full bg-red-500 text-white text-sm modal-delete-btn px-3 py-2 text-left flex items-center gap-2">
                     <i class="fas fa-trash"></i> Delete
                 </button>
             </div>
         </div>
     </div>
+    <div id="confirmBox" class="hidden">
+        <script>
+            function deleteBoard(boardId) {
+                showConfirm(
+                    'Are you sure?',
+                    'You won`t be able to revert this!',
+                    () => {
+                        loggedInUser.boards = loggedInUser.boards.filter(b => b.id !== boardId);
+                        localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+                        renderBoards();
+                        renderStarredBoards();
+
+                    }
+                );
+            }
+
+            function showConfirm(message, subMessage, onConfirm) {
+                const box = document.getElementById('confirmBox');
+                box.innerHTML = `
+      <div class="confirm-content">
+        <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
+        <p class="main-message">${message}</p>
+        <p class="sub-message">${subMessage}</p>
+        <div class="confirm-actions">
+                        <div class="actions">
+                            <a onclick="confirmNo()" class="bt cl" onclick=" closeEditModal()" href="#">
+
+                                Cancel
+                            </a>
+                            <a  onclick="confirmYes()" class="bt" onclick="saveEditBoard()" href="#">
+
+                                Confirm
+                            </a>
+
+
+                        </div>
+        
+        </div>
+      </div>
+    `;
+                box.style.display = 'flex';
+
+                window.confirmYes = () => {
+                    onConfirm();
+                    box.style.display = 'none';
+                };
+
+                window.confirmNo = () => {
+                    box.style.display = 'none';
+                };
+            }
+        </script>
 </body>
 
 </html>

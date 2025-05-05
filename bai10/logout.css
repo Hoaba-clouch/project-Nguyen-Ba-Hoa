@@ -41,6 +41,7 @@
   transform: none;
   transition: transform 50ms ease;
   width: 100%;
+
   z-index: 2;
 }
 
@@ -93,7 +94,7 @@
 }
 
 .logoutButton--light .button-text {
-  color: #1f2335;
+  color: #413d3d;
 }
 
 .logoutButton--light .door, .logoutButton--light .doorway {
@@ -101,7 +102,7 @@
 }
 
 .button-text {
-  color: #6b7280;
+  color: #ffffff;
   font-weight: 600;
   position: relative;
   z-index: 10;
@@ -114,7 +115,7 @@ svg {
 
 .figure {
   bottom: 5px;
-  fill: #050b20;
+  fill: #2c2b2b;
   right: 18px;
   transform: var(--transform-figure);
   transition: transform calc(var(--figure-duration) * 1ms) cubic-bezier(0.2, 0.1, 0.80, 0.9);
@@ -138,9 +139,12 @@ svg {
 }
 
 .door path {
-  fill: #cee9ea;
+  fill: #006e6e;
   stroke: #45f3ff;
   stroke-width: 4;
+  
+  
+
 }
 
 .doorway {
