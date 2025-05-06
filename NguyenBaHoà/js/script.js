@@ -408,7 +408,31 @@ function updateUserData() {
     }
     localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
 }
-
+function exportLocalData() {
+    const users = localStorage.getItem('users') || '[]';
+    const loggedInUser = localStorage.getItem('loggedInUser') || '{}';
+  
+    const exportData = {
+      users: JSON.parse(users),
+      loggedInUser: JSON.parse(loggedInUser)
+    };
+  
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+      type: 'application/json'
+    });
+  
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'backup-data.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  
+    URL.revokeObjectURL(url);
+    showMessage('Đã xuất dữ liệu thành công!');
+  }
+  
 // --- Khởi động ---
 renderBoards();
 renderStarredBoards();

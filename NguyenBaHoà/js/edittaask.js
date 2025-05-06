@@ -206,8 +206,9 @@ let selectedLabelColor = '';
 
 function selectLabelColor(color, element) {
   selectedLabelColor = color;
+  selectedColor = color; // ⚠️ PHẢI CÓ DÒNG NÀY
 
-  document.querySelectorAll('.color-item').forEach(item => {
+  document.querySelectorAll('.color-swatch').forEach(item => {
     item.classList.remove('selected');
   });
 
@@ -309,8 +310,13 @@ function renderLabelList() {
       div.style.alignItems = 'center';
   
       div.innerHTML = `
-      <input type="checkbox" class="label-checkbox" data-id="${label.id}" ${isChecked ? "checked" : ""}
-             onchange="toggleTag(${label.id})" />
+   <input type="checkbox"
+       class="label-checkbox"
+       id="label-${label.id}"
+       data-id="${label.id}"
+       ${isChecked ? "checked" : ""}
+       onchange="toggleTag(${label.id})" />
+
 
       <div class="label-box" style="background-color: ${label.color};">
         <span class="label-name">${label.content || "(No title)"}</span>
@@ -338,29 +344,27 @@ function toggleTag(labelId) {
     } else {
       currentTask.tag = currentTask.tag.filter(t => t.id !== labelId);
     }
-  
+  renderBoardLists();
     saveToLocalStorage();
   }
 
 // ===== Lưu vào localStorage =====
 function saveToLocalStorage() {
-    if (!currentTask) return; // ✅ tránh lỗi nếu currentTask null
-  
-    const user = JSON.parse(localStorage.getItem('loggedInUser'));
-    if (!user) return;
-  
-    const board = user.boards.find(b => b.id === currentBoardId);
-    const list = board?.lists.find(l => l.id === currentTask.listId);
-    const task = list?.tasks.find(t => t.id === currentTask.id);
-  
-    if (task) {
-      task.labels = currentTask.labels || [];
-      task.tag = currentTask.tag || [];
-      task.due_date = currentTask.due_date || '';
-    }
-  
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
+  const user = JSON.parse(localStorage.getItem('loggedInUser')) || {};
+  const board = user.boards?.find(b => b.id === currentEditTask.boardId);
+  const list = board?.lists?.find(l => l.id === currentEditTask.listId);
+  const task = list?.tasks?.find(t => t.id === currentEditTask.id);
+
+  if (task) {
+    task.labels = currentEditTask.labels || [];
+    task.tag = currentEditTask.tag || [];
+    task.description = currentEditTask.description || '';
+    task.due_date = currentEditTask.due_date || '';
   }
+
+  localStorage.setItem('loggedInUser', JSON.stringify(user));
+}
+
   
   
   

@@ -303,13 +303,17 @@ function renderBoardLists() {
 
       <div class="task-container">
         ${filteredTasks.map(task => `
-          <div onclick="openEditTaskModal(${board.id}, ${list.id}, ${task.id})"
-               class="task-card ${task.status === 'done' ? 'done' : ''}">
-            <input type="checkbox" class="task-check" ${task.status === 'done' ? 'checked' : ''}
-                   onchange="toggleTaskStatus(${list.id}, ${task.id})">
-            <span class="task-title">${task.title}</span>
-            <i class="fa-regular fa-pen-to-square edit-icon" title="Chỉnh sửa"></i>
-          </div>
+        <div onclick="openEditTaskModal(${board.id}, ${list.id}, ${task.id})"
+     class="task-card ${task.status === 'done' ? 'done' : ''}">
+  <input type="checkbox"
+         class="task-check"
+         ${task.status === 'done' ? 'checked' : ''}
+         onclick="event.stopPropagation();"
+         onchange="toggleTaskStatus(${list.id}, ${task.id})">
+  <span class="task-title">${task.title}</span>
+  <i class="fa-regular fa-pen-to-square edit-icon" title="Chỉnh sửa"></i>
+</div>
+
         `).join("")}
       </div>
 
