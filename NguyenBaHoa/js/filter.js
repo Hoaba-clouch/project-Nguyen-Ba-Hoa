@@ -34,7 +34,10 @@ function openFilterModal() {
       overdue: document.getElementById("filterOverdue")?.checked || false,
       upcoming: document.getElementById("filterDueSoon")?.checked || false,
       colors: Array.from(document.querySelectorAll(".filter-label-color:checked"))
-                   .map(cb => cb.value)
+                   .map(cb => cb.value),
+                  //  noTag: document.getElementById("filterNoLabel")?.checked || false,
+
+
     };
   }
   

@@ -109,6 +109,11 @@ function toggleAddList() {
   }
 
   function addNewList() {
+    // if (board.lists.some(l => l.title === title)) {
+    //   showMessage("Danh sách đã tồn tại!");
+    //   return;
+    // }
+    
     const title = document.getElementById("newListTitle").value.trim();
     if (!title) return;
   
@@ -282,8 +287,13 @@ function renderBoardLists() {
         const match = filters.colors.some(color => tagColors.includes(color));
         if (!match) return false;
       }
-      
-    
+      // if (filters.noTag && (task.tag || []).length > 0) return false;
+
+    //   <span class="task-title" style="text-decoration: ${task.status === 'done' ? 'line-through' : 'none'}">
+    //   ${task.title}
+    // </span>
+    // <span class="due-date">${task.due_date ? new Date(task.due_date).toLocaleDateString() : ''}</span>
+
       return true;
     });
     
@@ -311,6 +321,7 @@ function renderBoardLists() {
          onclick="event.stopPropagation();"
          onchange="toggleTaskStatus(${list.id}, ${task.id})">
   <span class="task-title">${task.title}</span>
+  
   <i class="fa-regular fa-pen-to-square edit-icon" title="Chỉnh sửa"></i>
 </div>
 
