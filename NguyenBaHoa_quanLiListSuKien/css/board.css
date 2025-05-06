@@ -435,17 +435,13 @@ color: #000000;
   transition: opacity 0.2s;
   cursor: pointer;
   position: absolute;
-  top: 12px;
-  left: 4px;
+  top: 10px;
+  left: 5px;
 background-color: white;
   border: 2px solid #767977;
   border-radius: 70%;
   transition: all 0.2s ease;
    padding: 0 ;
-}
-.task-check:checked {
-  background-color: #38A97A;
-  border-color:  #38A97A;
 }
 .task-card.done .task-check {
   opacity: 1;
@@ -456,6 +452,11 @@ background-color: white;
 .task-card.done:hover .task-title{
   transform: translateX(0px);
 }
+.task-check:checked {
+  background-color: #38A97A;
+  border-color:  #38A97A;
+}
+
 .task-check:checked::after {
   content: "";
   position: absolute;
@@ -719,12 +720,16 @@ justify-content: space-between;
   display: none;
 }
 .modal-box {
+  position: fixed; 
   background: white;
-  width: 360px;
+  width: 500px;
   padding: 20px;
+  min-height: 150px;
   border-radius: 12px;
   max-height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 99999999;
 }
 .modal-header {
   display: flex;
@@ -759,7 +764,7 @@ justify-content: space-between;
   }
   
   .edit-task-box {
-    background: #fff;
+    background: rgba(255,255,255,0.9);
     display: flex;
     padding: 20px;
     border-radius: 10px;
@@ -980,3 +985,754 @@ justify-content: space-between;
     padding-bottom: 19px;
   }
   /* end modal chỉnh sửa  */
+  /* modalnhan */
+  /* Overlay modal chung */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+}
+
+/* Hộp modal */
+.modal-box {
+  background: white;
+  border-radius: 12px;
+  width: 320px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 30px;
+  left: 50px;
+  gap: 16px;
+
+}
+
+/* Tiêu đề modal */
+.modal-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Danh sách nhãn */
+.label-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Mỗi nhãn */
+.label-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.label-item .label-name {
+  flex: 1;
+}
+
+.edit-label-btn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Color swatch */
+.color-picker-wrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+
+.color-swatch.selected {
+  border: 2px solid #333;
+  box-shadow: 0 0 0 2px white;
+}
+
+/* Input label name */
+#labelContentInput {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Nút hành động */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Nút Save, Create */
+
+/* Nút Delete */
+
+
+/* Nút Cancel */
+.modal-actions button:last-child {
+  background: #f3f4f6;
+  color: #111;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.modal-close-btn:hover {
+  color: #111;
+}
+.create-btn{
+  width: 100%;
+  height: 30px ;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+}
+
+.modal-back-btn,
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #888;
+  cursor: pointer;
+}
+
+.modal-back-btn:hover,
+.modal-close-btn:hover {
+  color: #111;
+}
+.color-swatch{
+  width: unset;
+}
+.label-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.label-checkbox {
+  transform: scale(1.1);
+ width: 14px;
+}
+
+.label-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.label-name {
+  flex: 1;
+  color: #000000;
+  font-size: 12px;
+}
+
+.edit-label-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+.label-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+}
+
+.label-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.label-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: lowercase;
+  color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.label-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.edit-label-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+  transition: color 0.2s;
+}
+
+.edit-label-btn:hover {
+  color: #000;
+}
+.label-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+
+  transition: opacity 0.2s;
+  cursor: pointer;
+
+
+background-color: white;
+  border: 2px solid #767977;
+  border-radius: 70%;
+  transition: all 0.2s ease;
+   padding: 0 ;; /* màu xanh dương nhẹ */
+}
+.label-checkbox:checked {
+  background-color: #38A97A;
+  border-color:  #38A97A;
+}
+
+.label-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 3.2px;
+  top: 0px;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.color-item {
+  width:auto;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease;
+}
+
+.color-item:hover {
+  transform: scale(1.1);
+}
+
+.color-item .checkmark {
+  display: none;
+  position: absolute;
+  top: 2px;
+  left: 16px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+.color-item.selected .checkmark {
+  display: block;
+}
+input[type="date"] {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  color: #000;
+}
+/* === Date Modal Styles === */
+#dateModal.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(9, 30, 66, 0.54);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#dateModal .modal-box {
+  width: 340px;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  animation: slideIn 0.2s ease-out;
+}
+#dateModal  h3{
+  color: #000;
+}
+#dateModal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+#dateModal .modal-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+#dateModal .modal-header button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #42526e;
+  cursor: pointer;
+}
+
+#dateModal label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #5e6c84;
+  margin-bottom: 6px;
+  margin-top: 8px;
+}
+
+#dateModal input[type='date'],
+#dateModal input[type='time'] {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+#dateModal .full-width {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+#dateModal .date-time-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#dateModal .modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#dateModal .save-btn {
+  background-color: #0065ff;
+  color: white;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#dateModal .remove-btn {
+  background-color: #f4f5f7;
+  color: #172b4d;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+#startDateCheck,#dueDateCheck{
+  width: 14px;
+}
+#dueTimeInput{
+  color: #000;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.2);
+ 
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#labelManagerModal {
+  z-index: 1050;
+}
+
+#labelEditorModal {
+  z-index: 1060;
+}
+
+#dateModal {
+  z-index: 1070;
+}
+/* <!-- modaldichyen --> */
+/* ==== Move Task Modal ==== */
+#moveTaskModal.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(9, 30, 66, 0.54);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#moveTaskModal .modal-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 360px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', sans-serif;
+  color: #172b4d;
+}
+
+#moveTaskModal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+#moveTaskModal .modal-header button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#moveTaskModal .modal-section {
+  margin-bottom: 14px;
+}
+
+#moveTaskModal label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #5e6c84;
+  margin-bottom: 4px;
+}
+
+#moveTaskModal input[type="text"],
+#moveTaskModal select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #dfe1e6;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+#moveTaskModal .modal-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#moveTaskModal .move-btn {
+  background-color: #0079bf;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+#moveTaskModal .move-btn:hover {
+  background-color: #026aa7;
+}
+.task-list-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #f4f5f7;
+  margin: 10px 0;
+
+}
+.task-list-status .fa-chevron-down{
+   color: #007bff;
+}
+#currentListName{
+  color: #000000;
+  font-size: 13px;
+}
+.task-list-statuss{
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #d0d5dd;
+}
+.task-list-statuss:hover{
+  background-color: #d7cece;
+}
+.filter-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background: #fff;
+  border-radius: 8px;
+  width: 384px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  padding: 24px;
+  display: none;
+  animation: fadeIn 0.2s ease;
+  border: 1px solid #d3e3fd;
+}
+
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #172b4d;
+  margin: 0;
+}
+.filter-status{
+  width: 14px;
+  font-weight:200 ;
+}
+#filterNoDate{
+  width: 14px;
+}
+#filterOverdue{
+  width: 14px;
+}
+#filterDueSoon{
+  width: 14px;
+}
+#filterNoLabel{
+  width: 14px;
+}
+.filter-header .close-btn {
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+}
+.filter-header .close-btn:hover {
+  color: #333;
+}
+
+.filter-section {
+  font-size: 14px;
+  color: #172b4d;
+}
+
+.filter-section input[type="text"] {
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.filter-section small {
+  color: #6b778c;
+}
+
+.label-color {
+  height: 24px;
+  border-radius: 4px;
+  margin: 6px 0;
+}
+
+#filterApplyBtn {
+ 
+  text-align: center;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+.filter-label-color{
+  width: 14px;
+  
+}
+#filterLabelsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 10px;
+}
+
+#filterLabelsContainer input[type="checkbox"] {
+  transform: scale(1.1);
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+#filterLabelsContainer label {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+#filterLabelsContainer .spann {
+  width: 80px;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+/* Áp dụng cho toàn bộ phần modal */
+.filter-modal {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  color: #4c4c4c;
+  border-radius: 10px;
+  background-color:rgba(255,255,255,0.9);
+}
+
+/* Tiêu đề chính */
+.filter-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2e2e2e;
+
+}
+
+/* Label tiêu đề mỗi mục */
+
+
+/* Các dòng văn bản nhỏ hơn như "Search cards" */
+#filterKeyword{
+  color: #000;
+}
+
+/* Các dòng checkbox nội dung */
+.filter-section div {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0;
+}
+
+/* Checkbox + icon Trello-style */
+
+
+#filterApplyBtn {
+  display: inline-block;
+  margin-top: 16px;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* <!-- end modaldichyen --> */
+  /* end modalnhan */

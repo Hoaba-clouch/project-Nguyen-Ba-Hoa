@@ -249,21 +249,50 @@ function saveListTitle(listId, inputEl) {
   }
 }
 
-  function renderBoardLists() {
-    const user = JSON.parse(localStorage.getItem('loggedInUser')) || {};
-    const board = (user.boards || []).find(b => b.id === currentBoardId);
-    if (!board) return;
-  
-    const wrapper = document.querySelector(".board-wrapper");
-    if (!wrapper) return;
-  
-    // Clear hết
-    wrapper.innerHTML = "";
-  
-    board.lists?.forEach(list => {
-      const listEl = document.createElement("div");
-      listEl.className = "list";
-      listEl.innerHTML = `
+function renderBoardLists() {
+  const filters = window.currentFilter || {};
+  const hasFilter = Object.values(filters).some(Boolean); // Có ít nhất 1 điều kiện lọc
+
+  const user = JSON.parse(localStorage.getItem("loggedInUser")) || {};
+  const board = (user.boards || []).find((b) => b.id === currentBoardId);
+  if (!board) return;
+
+  const wrapper = document.querySelector(".board-wrapper");
+  if (!wrapper) return;
+  wrapper.innerHTML = "";
+
+  board.lists.forEach((list) => {
+    const now = new Date();
+
+    const filteredTasks = (list.tasks || []).filter(task => {
+      const title = task.title?.toLowerCase() || '';
+      const isDone = task.status === 'done';
+      const due = task.due_date ? new Date(task.due_date) : null;
+      const tagColors = (task.tag || []).map(t => t.color);
+      const now = new Date();
+    
+      if (filters.keyword && !title.includes(filters.keyword)) return false;
+      if (filters.done && !isDone) return false;
+      if (filters.pending && isDone) return false;
+      if (filters.noDate && task.due_date) return false;
+      if (filters.overdue && (!due || due.getTime() > now.getTime())) return false;
+      if (filters.upcoming && (!due || (due - now) / (1000 * 60 * 60 * 24) > 1)) return false;
+      if (filters.colors?.length) {
+        const tagColors = task.tag?.map(t => t.color) || [];
+        const match = filters.colors.some(color => tagColors.includes(color));
+        if (!match) return false;
+      }
+      
+    
+      return true;
+    });
+    
+    
+    
+
+    const listEl = document.createElement("div");
+    listEl.className = "list";
+    listEl.innerHTML = `
       <div class="list-header">
         <h3 class="list-title">${list.title}</h3>
         <div class="list-controls">
@@ -271,59 +300,55 @@ function saveListTitle(listId, inputEl) {
           <span onclick="showListTitleEdit(${list.id}, this)">⋮</span>
         </div>
       </div>
-    
-      <div class="task-container">
-        ${(list.tasks || []).map(task => `
-<div  onclick="openEditTaskModal(${board.id}, ${list.id}, ${task.id})" class="task-card ${task.status === 'done' ? 'done' : ''}">
-  <input type="checkbox" class="task-check" ${task.status === 'done' ? 'checked' : ''} onchange="toggleTaskStatus(${list.id}, ${task.id})">
-  <span class="task-title">${task.title}</span>
-  <i class="fa-regular fa-pen-to-square edit-icon" title="Chỉnh sửa"></i>
-</div>
 
-          `).join("")
-          }
+      <div class="task-container">
+        ${filteredTasks.map(task => `
+          <div onclick="openEditTaskModal(${board.id}, ${list.id}, ${task.id})"
+               class="task-card ${task.status === 'done' ? 'done' : ''}">
+            <input type="checkbox" class="task-check" ${task.status === 'done' ? 'checked' : ''}
+                   onchange="toggleTaskStatus(${list.id}, ${task.id})">
+            <span class="task-title">${task.title}</span>
+            <i class="fa-regular fa-pen-to-square edit-icon" title="Chỉnh sửa"></i>
+          </div>
+        `).join("")}
       </div>
-    
+
       <div class="add-card-form" id="add-card-form-${list.id}" style="display: none;">
         <textarea class="task-input" data-list-id="${list.id}" placeholder="Nhập tiêu đề hoặc dán liên kết"></textarea>
         <div style="margin-top: 5px;">
           <a onclick="handleAddTask(${list.id})" class="add-task-btn">Thêm thẻ</a>
-          <a onclick="cancelAddCard(${list.id})" class="cancel-task-btn bt cl"><i class="fas fa-times"></i>
-</a>
-        </div>
-
-      </div>
-    
-<div class="add-card-trigger" id="add-card-trigger-${list.id}" onclick="showAddCardForm(${list.id})">
-  <div class="add-left">
-    <i class="fas fa-plus add-icon"></i>
-    <span>Thêm thẻ</span>
-  </div>
-  <img class="side-icon" src="../assets/Frame.svg" alt="Xoá list" onclick="event.stopPropagation(); confirmDeleteList(${list.id})">
-</div>
-
-
-    `;
-    
-    
-      wrapper.appendChild(listEl);
-    });
-  
-    // Add ô "Thêm danh sách"
-    const addListBox = document.createElement("div");
-    addListBox.className = "listt addd-list";
-    addListBox.innerHTML = `
-      <button class="add-list-btn" onclick="toggleAddList()">+ Thêm danh sách khác</button>
-      <div id="addListForm" style="display: none; margin-top: 10px;">
-        <input id="newListTitle" type="text" placeholder="Nhập tên danh sách" />
-        <div style="margin-top: 5px;">
-          <a onclick="addNewList()">Thêm</a>
-          <a onclick="cancelAddList()" class ="bt cl">Hủy</a>
+          <a onclick="cancelAddCard(${list.id})" class="cancel-task-btn bt cl"><i class="fas fa-times"></i></a>
         </div>
       </div>
+
+      <div class="add-card-trigger" id="add-card-trigger-${list.id}" onclick="showAddCardForm(${list.id})">
+        <div class="add-left">
+          <i class="fas fa-plus add-icon"></i>
+          <span>Thêm thẻ</span>
+        </div>
+        <img class="side-icon" src="../assets/Frame.svg" alt="Xoá list" onclick="event.stopPropagation(); confirmDeleteList(${list.id})">
+      </div>
     `;
-    wrapper.appendChild(addListBox);
-  }
+
+    wrapper.appendChild(listEl);
+  });
+
+  // Thêm ô "Thêm danh sách khác"
+  const addListBox = document.createElement("div");
+  addListBox.className = "listt addd-list";
+  addListBox.innerHTML = `
+    <button class="add-list-btn" onclick="toggleAddList()">+ Thêm danh sách khác</button>
+    <div id="addListForm" style="display: none; margin-top: 10px;">
+      <input id="newListTitle" type="text" placeholder="Nhập tên danh sách" />
+      <div style="margin-top: 5px;">
+        <a onclick="addNewList()">Thêm</a>
+        <a onclick="cancelAddList()" class="bt cl">Hủy</a>
+      </div>
+    </div>
+  `;
+  wrapper.appendChild(addListBox);
+}
+
   function confirmDeleteList(listId) {
     showConfirm(
       "Xoá danh sách?",
@@ -458,7 +483,9 @@ function handleAddTask(listId) {
     const newTask = {
       id: Date.now(),
       title: title,
-          status: "pending"
+          status: "pending",
+          labels:[],
+          tag:[]
     };
   
     list.tasks = list.tasks || [];

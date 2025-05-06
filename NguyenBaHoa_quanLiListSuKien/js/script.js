@@ -349,11 +349,11 @@ function showConfirm(message, subMessage, onConfirm) {
         <p class="sub-message">${subMessage}</p>
         <div class="confirm-actions">
                         <div class="actions">
-                            <a onclick="confirmNo()" class="bt cl" onclick=" closeEditModal()" href="#">
+                            <a onclick="confirmNo()" class="bt cl"  href="#">
 
                                 Cancel
                             </a>
-                            <a  onclick="confirmYes()" class="bt" onclick="saveEditBoard()" href="#">
+                            <a  onclick="confirmYes()" class="bt" href="#">
 
                                 Confirm
                             </a>
