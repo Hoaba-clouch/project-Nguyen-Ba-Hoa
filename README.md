@@ -1,0 +1,1 @@
+THÀY ƠI BÀI EM CHẤM HƠI LÂU NÊN EM TẠO FILE JSON THẦY NHẤN VÀO CÁI NÚT "KHỞI TẠO DỮ LIỆU SẴN" RỒI EM ĐÃ LOAD LẠI TRANG, DỮ LIỆU ĐÃ CÓ ĐẦY ĐỦ Ạ. Ở PHẦN BOARD ĐẦU TIÊN LÀ “HOME WORK”, EM ĐÃ LÀM CÁC DỮ LIỆU TRONG BOARD NÀY ĐỂ THẦY DỄ CHẤM Ạ. EM CẢM ƠN THẦY!
